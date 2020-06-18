@@ -1,0 +1,7 @@
+sudo docker rm -f zanewebb
+sudo docker pull zanewebb/zanewebbuw
+export TLSCERT=/etc/letsencrypt/live/api.zanewebb.me/fullchain.pem
+export TLSKEY=/etc/letsencrypt/live/api.zanewebb.me/privkey.pem
+sudo docker run -d --name redisServer --network gatewayNetwork redis
+
+sudo docker run -d -p 443:443 -v /etc/letsencrypt:/etc/letsencrypt:ro -e TLSCERT=$TLSCERT -e TLSKEY=$TLSKEY --name zanewebb zanewebb/zanewebbuw

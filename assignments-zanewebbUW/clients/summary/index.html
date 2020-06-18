@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+        function getURLSummary(){
+            console.log("Entered Value: "+document.getElementById("enteredURL").value);
+            fetch('https://localhost:4000/v1/summary?url='+document.getElementById("enteredURL").value, {mode: 'cors'})
+                .then(function(response) { return response.json(); })
+                .then(function(data) {
+                    //var data = response.json();
+                    //console.log(data);
+                    try{
+                        document.getElementById("websiteTitle").innerHTML = data.title;
+                    }catch(err){
+                        document.getElementById("errorBox").innerHTML = "No website title given"
+                    }
+                    try{
+                        document.getElementById("websiteDescription").innerHTML = data.description;
+                    }catch(err){
+                        document.getElementById("errorBox").innerHTML = "No website description given"
+                    }
+                    try{
+                        for( i=0; i < data.images.length; i++){
+                            var newImg = document.createElement("img");
+                            var newImgSrc = document.createAttribute("src");
+                            newImgSrc.value = data.images[i].url;
+                            newImg.setAttributeNode(newImgSrc);
+                            var desc = document.getElementById("websiteDescription");
+                            document.body.insertAdjacentElement(newImg, desc);
+                        }
+                    }catch(err){
+                        document.getElementById("errorBox").innerHTML = "No images given"
+                    }
+                });
+        }
+        </script>
+    </head>
+<body>
+
+<h2> A website!</h2>
+<form onsubmit="getURLSummary(); return false;">
+    <input autofocus type="text" placeholder="Enter your URL here" id="enteredURL"> 
+    <button type="submit" value="Submit" >Submit</button>
+</form>
+<div id="websiteTitle"></div>
+<div id="websiteDescription"></div>
+<div id="errorBox"></div>
+</body>
+</html>

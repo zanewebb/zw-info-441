@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript">
+        function getHello(){
+            //console.log("Entered Value: "+document.getElementById("enteredName").value);
+            fetch('http://localhost:4000/?name='+document.getElementById("enteredName").value)
+                .then(function(response) {
+                    response.text().then(function(data) {
+                        console.log(data);
+                        document.getElementById("responseBox").innerHTML = data;
+                    });
+                })
+        }
+
+        function getIdenticon(){
+            document.getElementById("identicon").src = 'http://localhost:4000/identicon/'+document.getElementById("enteredName").value
+            
+            //holy shit im a dumbass
+            /*console.log("URL for Identicon: "+'http://localhost:4000/identicon/'+document.getElementById("enteredName").value);
+            fetch('http://localhost:4000/identicon/'+document.getElementById("enteredName").value)
+                .then(function(response) {
+                    response.text().then(function(data) {
+                        console.log(data);
+                        
+                    });
+                }) */
+        } 
+        </script>
+    </head>
+<body>
+
+<!-- I'm not even sure why i called it this-->
+<h1>Your only friend</h1>
+<h2> The website!</h2>
+<form onsubmit="getHello(); getIdenticon(); return false;">
+    <input autofocus type="text" placeholder="Enter your  name here" id="enteredName"> 
+    <button type="submit" value="Submit" >Submit</button>
+</form>
+<img id="identicon">
+<span id="responseBox"></span>
+</body>
+</html>
